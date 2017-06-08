@@ -14,11 +14,8 @@
       <h2> Balance Equation </h2>
         <div class="q-box">
 
-          <input id="equation-input" placeholder="2H2O + Fe = FeO2 + 2H2" />
-
-          <button onclick="confirmEquation()">
-            Confirm Equation
-          </button>
+          <input id="equation-input" oninput="processEquation()"
+            placeholder="2H2O + Fe = FeO2 + 2H2" />
 
           <br>
 
@@ -54,6 +51,12 @@
         <button onclick="clearInputs()">
           Clear all
         </button>
+
+        <div id="alert" style="display: none">
+          <p style="color: red">
+            Invalid equation
+          </p>
+        </div>
 
       </div>
 
