@@ -28,14 +28,14 @@ function tryParseEqu (equ) {
     return false;
   }
   var operands = matches.slice(1, 5);
-  console.log(operands);
-  var lhs = operands.slice(0, 1); // left hand side
-  var rhs = operands.slice(1, 3); // right hand side
+  var lhs = operands.slice(0, 2); // left hand side
+  var rhs = operands.slice(2, 4); // right hand side
+  console.log(lhs);
+  console.log(rhs);
   /* here operands is array like ["2H2O", "Fe", "FeO2", "2H2"]*/
   /* lhs is the first two parts and rhs is the second two parts */
 
-  // NOTE: function takes an array
-  updateMolInputs( [ lhs, rhs ] );
+  updateMolInputs(lhs, rhs);
 
   /*
     here you can use a function to evaluate the left and right hand sides
@@ -54,20 +54,19 @@ function processEquation () {
   document.getElementById("alert").style.display = "none";
 }
 
-function updateMolInputs (sides) {
+function updateMolInputs (lhs, rhs) {
   /* order is important */
-  var sels = [
-    document.getElementById("sel-mol-lhs"),
-    document.getElementById("sel-mol-rhs")
-  ];
+  var sel_l = document.getElementById("sel-mol-lhs"),
+      sel_r = document.getElementById("sel-mol-rhs");
 
-  /* TODO: fix this */
-  for (var i = 0; i < sels.length; i++) {
-    for (var j = 0; j < sels[i].length; j++) {
-      sels.insertAdjacentHTML(
-        '<option value="' + sides[i][j] + '"> ' + sides[i][j] + ' </option'
-      );
-    }
+  /* do the left side */
+  for (var i = 0; i < lhs.length; i++) {
+    sel_l.insertAdjacentHTML("beforeend", makeOptionTag(lhs[i]));
+  }
+
+  /* and the right side */
+  for (var i = 0; i < rhs.length; i++) {
+    sel_r.insertAdjacentHTML("beforeend", makeOptionTag(rhs[i]));
   }
 }
 
@@ -83,6 +82,14 @@ function clearInputs () {
   }
 
   for (var i = 0; i < inputs.length; i++) {
-    inputs[i].value = "";
+    var t = inputs[i];
+    /* don't clear the input field */
+    if ("equation-input" !== t.id) {
+      t.value = "";
+    }
   }
+}
+
+function makeOptionTag (name) {
+  return "<option value='" + name + "'> " + name + " </option>";
 }
